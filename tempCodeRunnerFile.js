@@ -1,20 +1,44 @@
-//bind   柯里化
-
-Function.prototype.mybind = function (context, ...args1) {
-  if (context === null || context === undefined) context = window;
-  else context = Object(context);
-  return (...args2) => this.call(context, ...args1, ...args2);
+const swap = (arr, i, j) => {
+  let temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
 }
 
-C = {
-  name: '马大哈'
+const partition = (arr, left, right, pivot) => {
+  let value = arr[pivot];
+  let i = left;
+  for (let j = left; j < right; j++) {
+    if (arr[j] < value) {
+      swap(arr, i, j);
+      i++;
+    }
+  }
+  swap(arr, i, pivot);
+  return i;
 }
 
-function sayMyName() {
-  console.log('我是多余的参数...', arguments)
-  console.log('My name is ' + this.name);
+const quickSort = (arr, left, right) => {
+  // if (left >= right) return;
+  // let pivot = right;
+  // let i = partition(arr, left, right, pivot);
+  // console.log(i)
+  // quickSort(arr, left, i - 1 > left ? i - 1 : left);
+  // quickSort(arr, right, i + 1 < right ? i + 1 : right);
+  if (left < right) {
+    let pivot = right
+    let partitionIndex = partition(arr, pivot, left, right)
+    console.log(partitionIndex)
+    quickSort(arr, left, partitionIndex - 1 < left ? left : partitionIndex - 1)
+    quickSort(arr, partitionIndex + 1 > right ? right : partitionIndex + 1, right)
+  }
 }
 
-let hi = sayMyName.mybind(C, '1234,走起')
-
-hi('456,出发')
+const testArr = []
+let i = 0
+while (i < 10) {
+  testArr.push(Math.floor(Math.random() * 1000));
+  i++;
+}
+console.log('sort before...', testArr)
+quickSort(testArr, 0, testArr.lenght - 1);
+console.log('sort after....', testArr);

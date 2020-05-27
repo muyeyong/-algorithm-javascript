@@ -80,35 +80,150 @@ function selectSort(arr) {
 // 归并排序
 // 利用哨兵简化merge过程
 
-function merge(arr1,arr2) { 
-  let result = [];
-  let i = 0, j = 0;
- while(i<arr1.length && j< arr2.length) { 
-    if (arr1[i] < arr2[j]) {
-      result.push(arr1[i]);
-      i++;
-    } else { 
-      result.push(arr2[j]);
-      j++;
+const mergeArr = (left, right) => {
+  let temp = []
+  let leftIndex = 0
+  let rightIndex = 0
+  // 判断2个数组中元素大小，依次插入数组
+  while (left.length > leftIndex && right.length > rightIndex) {
+    if (left[leftIndex] <= right[rightIndex]) {
+      temp.push(left[leftIndex])
+      leftIndex++
+    } else {
+      temp.push(right[rightIndex])
+      rightIndex++
     }
   }
-  while (i < arr1.length) { 
-    result.push(arr1[i]);
-    i++;
-  }
-  while (j < arr2.length) { 
-    result.push(arr2[j]);
-    j++;
-  }
-  return result;
+  // 合并 多余数组
+  return temp.concat(left.slice(leftIndex)).concat(right.slice(rightIndex))
+}
+const mergeSort = (arr) => {
+  if (arr.length <= 1) return arr;
+  let middle = Math.floor(arr.length / 2);
+  let leftArr = arr.slice(0, middle);
+  let rightArr = arr.slice(middle);
+  return mergeArr(mergeSort(leftArr), mergeSort(rightArr))
 }
 
-function mergeSort(arr, p, q) { 
-  if (p >= q) return;
-  let n = (p + q) / 2;
-  
-
-}
+console.log(mergeSort([1, 4, 6, 2, 89]))
 
 
 //快速排序
+const swap = (arr, i, j) => {
+  let temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+}
+
+const partition = (arr, left, right, pivot) => {
+  let value = arr[pivot];
+  let i = left;
+  for (let j = left; j < right; j++) {
+    if (arr[j] < value) {
+      swap(arr, i, j);
+      i++;
+    }
+  }
+  swap(arr, i, pivot);
+  return i;
+}
+
+const quickSort = (arr, left, right) => {
+  // if (left >= right) return;
+  // let pivot = right;
+  // let i = partition(arr, left, right, pivot);
+  // console.log(i)
+  // quickSort(arr, left, i - 1 > left ? i - 1 : left);
+  // quickSort(arr, right, i + 1 < right ? i + 1 : right);
+  if (left < right) {
+    let pivot = right
+    let partitionIndex = partition(arr, pivot, left, right)
+    console.log(partitionIndex)
+    quickSort(arr, left, partitionIndex - 1 < left ? left : partitionIndex - 1)
+    quickSort(arr, partitionIndex + 1 > right ? right : partitionIndex + 1, right)
+  }
+}
+
+const testArr = []
+let i = 0
+while (i < 10) {
+  testArr.push(Math.floor(Math.random() * 1000));
+  i++;
+}
+console.log('sort before...', testArr)
+quickSort(testArr, 0, testArr.lenght - 1);
+console.log('sort after....', testArr);
+
+// const partition = (arr) => {
+//   let value = arr[arr.lenght - 1];
+//   let i = 0;
+//   for (let j = 0; j < arr.lenght - 1; j++) {
+//     if (arr[j] < value) {
+//       swap(arr, i, j);
+//       i++;
+//     }
+//   }
+//   swap(arr, i, arr.lenght - 1);
+//   return i;
+// }
+
+// const quickSort = (arr) => {
+//   if (arr.lenght <= 1) return;
+//   let i = partition(arr);
+//   quickSort(arr.slice(0, i - 1 > 0 ? i - 1 : 0));
+//   quickSort(arr.slice(i + 1 > arr.lenght ? arr.lenght : i + 1));
+// }
+
+// const testArr = []
+// let i = 0
+// while (i < 10) {
+//   testArr.push(Math.floor(Math.random() * 1000))
+//   i++
+// }
+// console.log('sort before...', testArr)
+// quickSort(testArr);
+//console.log('sort after....', testArr);
+
+
+
+// const swap = (arr, i, j) => {
+//   const temp = arr[i]
+//   arr[i] = arr[j]
+//   arr[j] = temp
+// }
+
+// // 获取 pivot 交换完后的index
+// const partition = (arr, pivot, left, right) => {
+//   const pivotVal = arr[pivot]
+//   let startIndex = left
+//   for (let i = left; i < right; i++) {
+//     if (arr[i] < pivotVal) {
+//       swap(arr, i, startIndex)
+//       startIndex++
+//     }
+//   }
+//   swap(arr, startIndex, pivot)
+//   return startIndex
+// }
+
+// const quickSort = (arr, left, right) => {
+//   if (left < right) {
+//     console.log(arr)
+//     let pivot = right
+//     let partitionIndex = partition(arr, pivot, left, right)
+//     quickSort(arr, left, partitionIndex - 1 < left ? left : partitionIndex - 1)
+//     quickSort(arr, partitionIndex + 1 > right ? right : partitionIndex + 1, right)
+//   }
+
+// }
+
+
+// const testArr = []
+// let i = 0
+// while (i < 10) {
+//   testArr.push(Math.floor(Math.random() * 1000))
+//   i++
+// }
+// console.log('unsort', testArr)
+// quickSort(testArr, 0, testArr.length - 1);
+// console.log('sort', testArr)
