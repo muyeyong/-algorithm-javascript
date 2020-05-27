@@ -1,0 +1,17 @@
+/node_modules
+/packages/**/*/node_modules
+/packages/**/*/dist
+/**/*/.DS_Store
+/dist/*
+.vscode
+!/dist/dll/
+!/mocks/
+/mocks/account.json
+fe-toolkit/*
+*.scssc
+.sass-cache/
+.sass-cache/*
+src/UI/pages/web.config
+lerna-debug.log
+/coverage/*
+/packages/**/*/package-lock.json
