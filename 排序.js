@@ -127,6 +127,18 @@ const partition = (arr, left, right, pivot) => {
   swap(arr, i, pivot);
   return i;
 }
+// const partition = (arr, pivot, left, right) => {
+//   const pivotVal = arr[pivot]
+//   let startIndex = left
+//   for (let i = left; i < right; i++) {
+//     if (arr[i] < pivotVal) {
+//       swap(arr, i, startIndex)
+//       startIndex++
+//     }
+//   }
+//   swap(arr, startIndex, pivot)
+//   return startIndex
+// }
 
 const quickSort = (arr, left, right) => {
   // if (left >= right) return;
@@ -137,8 +149,7 @@ const quickSort = (arr, left, right) => {
   // quickSort(arr, right, i + 1 < right ? i + 1 : right);
   if (left < right) {
     let pivot = right
-    let partitionIndex = partition(arr, pivot, left, right)
-    console.log(partitionIndex)
+    let partitionIndex = partition(arr, left, right, pivot)
     quickSort(arr, left, partitionIndex - 1 < left ? left : partitionIndex - 1)
     quickSort(arr, partitionIndex + 1 > right ? right : partitionIndex + 1, right)
   }
@@ -151,7 +162,7 @@ while (i < 10) {
   i++;
 }
 console.log('sort before...', testArr)
-quickSort(testArr, 0, testArr.lenght - 1);
+quickSort(testArr, 0, testArr.length - 1);
 console.log('sort after....', testArr);
 
 // const partition = (arr) => {
