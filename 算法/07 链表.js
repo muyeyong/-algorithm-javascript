@@ -1,4 +1,4 @@
-var linkList = require('./linkList').linkList
+var linkList = require('../linkList').linkList
 let link = new linkList();
 for (let i = 0; i < 5; i++) link.append(i)
 //链表反转
