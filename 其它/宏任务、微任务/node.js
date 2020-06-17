@@ -29,6 +29,3 @@ Promise.resolve(5).then(() => console.log(5))
 console.log(2)
 
 
-
-setTimeout(() => console.log('setTimeout'))
-setImmediate(() => console.log('setImmediate'))
