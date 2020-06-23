@@ -1,21 +1,28 @@
-let yourMsg = {};
-yourMsg.peopleList = [];
-yourMsg.listen = function (fn) {
-    this.peopleList.push(fn);
+//基础版本
+yourMessage = {};
+
+yourMessage.messageList = [];
+
+yourMessage.on = function (fn) {
+    yourMessage.messageList.push(fn);
 }
-yourMsg.triger = function () {
-    for(var i = 0,fn;fn=this.peopleList[i++];){
-        fn.apply(this,arguments);
+
+yourMessage.emit = function () {
+    for (var i = 0, fn; fn = yourMessage.messageList[i++];) {
+        fn.apply(this, arguments); //=使用call 和 使用 bind 不一样
     }
 }
 
-yourMsg.listen(function (name) {
-    console.log(`${name}收到了你的消息`);
-})
-yourMsg.listen(function (name) {
-    console.log('哈哈');
+yourMessage.on(function (name) {
+    // console.log(Object.prototype.toString.call(name1))
+    console.log(`欢迎, ${name}`)
 })
 
-yourMsg.triger('张三');
-yourMsg.triger('李四');
+yourMessage.on(function () {
+    console.log('哈哈哈')
+})
+
+yourMessage.emit('花大姐', '马达话')
+yourMessage.emit('勤大妈')
+
 
