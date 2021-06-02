@@ -89,7 +89,7 @@
                 if(hash.has(obj)) return hash.get(obj)
                 const cloneObj = Object.create(Object.getPrototypeOf(obj),Object.getOwnPropertyDescriptor(obj))
                 hash.set(obj,cloneObj)
-                Reflect.ownKeys(obj).forEach(prop=>{
+                Reflect.ownKeys(obj).forEach(prop=>{ 
                     if(typeof prop === 'object' && prop!== null) cloneObj[prop] = deepClonePro(obj[prop],hash)
                     else cloneObj[prop] = obj[prop]
                 })

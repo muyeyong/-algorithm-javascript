@@ -30,12 +30,10 @@ console.log("outer:" + this)
 
 
 Function.prototype.myCall = function (context, ...args) {
-  console.log('1 ', context)
   if (context === null || context === undefined) context = window;
   else context = Object(context);
   let sym = Symbol();
   context[sym] = this;
-  console.log('2 ', this)
   let result = context[sym](...args);
   delete context[sym];
   return result;
@@ -105,7 +103,7 @@ Function.prototype.mybind = function (context, ...args1) {
 }
 
 C = {
-  name: '马大哈'
+  name: '马大哈' 
 }
 
 function sayMyName() {
