@@ -83,13 +83,60 @@
        console.log(arr)
 
     // 归并排序
-      const mergeArr = (arrA=[],ArrB=[])=>{
-            
+      const mergeArr = (arrA=[],arrB=[])=>{
+        let result = [], i=0,j=0
+            while(i<arrA.length && j<arrB.length){
+                if(arrA[i]<arrB[j]){
+                    result.push(arrA[i])
+                    i+=1
+                }else{
+                    result.push(arrB[j])
+                    j+=1
+                }
+            }
+            while(i<arrA.length){
+                result.push(arrA[i])
+                i+=1
+            }
+            while(j<arrB.length){
+                result.push(arrB[j])
+                j+=1
+            }
+            return result
        }
       const  mergeSort = (arr=[])=>{
           if(arr.length<=1) return arr
           let mid = Math.floor(arr.length>>1)
           let rightArr = arr.slice(0,mid)
-          let rightArr = arr.slice(mid)
-
+          let leftArr = arr.slice(mid)
+        return  mergeArr(mergeSort(rightArr),mergeSort(leftArr))
       }
+      let arr = [2,4,1,3,6,5,-1,0]
+      console.log( mergeSort(arr))
+    // 堆排序
+    function buildHeap(items, heapSize) {
+        while(heapSize < items.length - 1) {
+            heapSize ++
+            heapify(items, heapSize)
+        }
+    }
+    
+    function heapify(items, i) {
+        // 自下而上式堆化
+        while (Math.floor(i/2) >= 0 && items[i] < items[Math.floor(i/2)]) {  
+            swap(items, i, Math.floor(i/2)); // 交换 
+            i = Math.floor(i/2); 
+        }
+    }  
+    
+    function swap(items, i, j) {
+        let temp = items[i]
+        items[i] = items[j]
+        items[j] = temp
+    }
+    
+    // 测试
+    var items = [5, 2, 3, 4, 1]
+    // 初始有效序列长度为 1
+    buildHeap(items, 0)
+    console.log(items)
