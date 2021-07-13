@@ -37,32 +37,61 @@ class MyPromise {
   _then = function (onFulfilled, onRejected) {
       const {_status,_value} = this
       return new MyPromise((onFulfilledNext,onRejectedNext)=>{
-          const fulfilled = function(){
-
+          const fulfilled = function(val){
+              try {
+                if(typeof onFulfilled !== 'function'){
+                    onFulfilledNext(val)
+                }else{
+                    let res = onFulfilled(val)
+                    if(res instanceof MyPromise)
+                        res._then(onFulfilledNext,onRejectedNext)
+                    else onFulfilledNext(res)
+                }
+              } catch (error) {
+                  onRejected(error)
+              }
+           
           }
-          const rejected = function(){
-              
+          const rejected = function(err){
+                try {
+                    if(typeof onRejected !== 'function'){
+                        onRejectedNext(err)
+                    }else{
+                        let res = onRejected(err)
+                        if(err instanceof MyPromise){
+                            res._then(onFulfilledNext,onRejectedNext)
+                        }else{
+                            onRejectedNext(err)
+                        }
+                    }
+                } catch (error) {
+                    onRejectedNext(error)
+                }
           }
           switch (_status) {
               case PENDING:
                   this.fulfilledCallBack.push(onFulfilled)
-                  this.rejectedNext.push(onRejected)
+                  this.rejectedCallBack.push(onRejected)
                   break;
               case FULFILLED:
-                  onFulfilled(_value)
+                  fulfilled(_value)
                   break;
               case REJECTED:
-                  onRejected(_value)
+                  rejected(_value)
                   break;
           }
       })
   };
 }
 
-console.log(new MyPromise((resolve, reject) => {
-    console.log('aaa')
-  resolve(1);
-}))
+let p1 = new MyPromise((re,rj)=>{
+    setTimeout(()=>{
+        re('P1')
+    },2000)
+})
+p1._then(res=>{
+    console.log(res)
+})
 
 
 
