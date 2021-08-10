@@ -60,13 +60,3 @@ function formatStockNumbers(stock) {
 
 
 
-function f(){
-
-}
-f.prototype.s = function(count){
-    if(count>10) return 
-    console.log('aa')
-    this.s(count + 1)
-}
-
-console.log(new f().s(5))
