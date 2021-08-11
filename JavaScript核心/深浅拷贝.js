@@ -107,3 +107,37 @@
         console.log(deepClonePro(source))
 
 
+// 不好的深拷贝
+
+let obj1 = {
+    a: [1,2,3,4,5],
+    b: new Date(),
+    c: ()=>{ console.log('aaa')},
+    d: /123/,
+    e: undefined,
+    f: new Date()
+    // next: obj1
+}
+
+Object.defineProperty(obj1,'aaa',{
+    enumerable: false,
+    value: 'aaa'
+})
+const deepClone = (obj)=>{
+    const cloneObj = {}
+    for(let key in obj){
+        if( typeof key === 'object') {
+            cloneObj[key] = deepClone(obj[k])
+        }else {
+            cloneObj[key] = obj[key]
+        }
+    }
+    return cloneObj
+}
+
+let obj2 = deepClone(obj1)
+console.log(obj1, obj2)
+// obj1.a = [34,5,6,7]
+// obj1.c = ()=>{console.log('bbb')}
+// obj2.c()
+// console.log(obj2.a,obj2.d.test('123'))

@@ -1,6 +1,9 @@
 // 原型链继承
     // function 需要使用this
     // 缺点:共享原型链上的属性，改变可一个，其他的都变了; 子类调用父类的方法会访问父类的属性，就算这个属性子类也有
+
+const { concat } = require("lodash");
+
     // 构造函数的属性和方法无法被实例化对象共享
    function parent1 () {
        this.name='parent1';
@@ -112,5 +115,37 @@
       let son62 = new son6()
       son61.friends.push('d')
       console.log(son61,son62)
+
+
+// 2021/08/11
+// 原型链继承
+
+const Func1 = function(){
+    this.name= 'jjj',
+    this.age = 1777
+}
+
+const Func2 = function(){
+    this.sayName = function(){
+        console.log( this.name, this.age)
+    }
+}
+
+const Func3 = function(){
+    this.sayName = function(){
+        console.log( this.name, this.age)
+    }
+}
+Func2.prototype = new Func1
+Func3.prototype = new Func1
+const f22 = new Func2
+const f33 = new Func3
+f22.name = 'kkk'
+
+f22.sayName()
+f33.sayName()
+
+// 
+
 
 
