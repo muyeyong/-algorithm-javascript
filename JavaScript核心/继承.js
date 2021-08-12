@@ -99,7 +99,7 @@ const { concat } = require("lodash");
       let son51 = new son5()
       son51.friends.push('d')
       let son52 = new son5()
-      console.log(son51,son52.age)
+      console.log(son51,son52)
 
 // es6 extends
       class parent6{
@@ -145,7 +145,64 @@ f22.name = 'kkk'
 f22.sayName()
 f33.sayName()
 
-// 
+// 构造函数继承
+// 组合继承
+
+const Fun1 = function(name){
+    console.log('执行Fun1')
+    this.name = name
+    this.age = 999
+}
+
+Fun1.prototype.say = function(){
+    console.log('name', this.name)
+}
+
+console.log(Fun1())
+
+const Fun2 = function(){
+    Fun1.call(this, '我是Fun2')
+    console.log("执行Fun2")
+    this.age = 18
+    this.in = '9080'
+    this.Hi = function(){
+        console.log('Hi', this.age)
+    }
+}
+
+
+Fun2.prototype = new Fun1()
+Fun2.prototype.constructor = Fun2
+
+Fun2.prototype.do = function(){
+    console.log('do do do doooo')
+}
+const f21 = new Fun2()
+
+console.log(f21)
+////////
+
+
+function Parent3 () {
+    this.name = 'parent3';
+    this.play = [1, 2, 3];
+  }
+
+  Parent3.prototype.getName = function () {
+    return this.name;
+  }
+  function Child3() {
+    // 第二次调用 Parent3()
+    Parent3.call(this);
+    this.type = 'child3';
+  }
+
+  // 第一次调用 Parent3()
+  Child3.prototype = new Parent3();
+  // 手动挂上构造器，指向自己的构造函数
+  Child3.prototype.constructor = Child3;
+
+
 
 
 
