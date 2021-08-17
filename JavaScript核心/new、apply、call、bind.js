@@ -5,9 +5,9 @@
     //  返回新对象
 
 // new 升级
-const _new = function(ctor, ...args){
-    if(ctor )
-}
+// const _new = function(ctor, ...args){
+//     if(ctor )
+// }
 
 Function.prototype.myBind = function(context, ...args){
     if(!context) context = window

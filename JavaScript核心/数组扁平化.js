@@ -55,3 +55,59 @@ const flat = (arr=[])=>{
 }
 const arr = [1,2,[3,4,[5],[6]],[7]]
 console.log(flat(arr))
+
+// 2021/08/16
+ // 递归实现 [1,2,3, [2,3],7,8]
+ const flatten  = (arr)=>{
+    if(!Array.isArray(arr)) throw new Error('arr must bu Array Type')
+    let result = []
+    for(v of arr) {
+       if (Array.isArray(v)){
+        result =  result.concat(flatten(v))
+       }else{
+           result.push(v)
+       }
+    }
+    return result
+ }
+
+ const arr = [1,2,3,[4,5,[8]]]
+console.log( flatten(arr))
+
+// 字符串实现
+
+const flattenByString = (arr)=>{
+    if(!Array.isArray(arr)) throw new Error('arr must be Array')
+    let arrString =  arr.toString()
+    const result = arrString.replace(/(\[|\])/g, '')
+    return `[${result}]`
+}
+
+const arr = [1,2,3,[3,4,5,666]]
+
+console.log(flattenByString(arr))
+
+// reduce实现
+const flattenByReduce = (arr)=>{
+    return  arr.reduce((pre,v)=>{
+        return pre.concat(Array.isArray(v)? flattenByReduce(v): v)
+    },[])
+}
+
+const arr = [1,2,3,4,5,[66,77,88,[9]]]
+
+console.log(flattenByReduce(arr))
+
+`/(\[|\])/g`
+
+// toString实现
+
+const flatByToString = (arr)=>{
+    return `[${arr.toString()}]`
+}
+
+console.log(flatByToString([1,2,3,4,[444,5,[88]]]))
+
+console.log([1,2,3,5,[4,5,[555]]].join(','))
+
+''.split

@@ -14,6 +14,8 @@
 
 `create 方法`
 
+`isPrototypeOf 方法`
+
 ##  JS数据类型
 
 ​	基本数据类型：number sting null undefined boolean symbol  bigItem
@@ -30,7 +32,11 @@
 
 ​	数据类转换： 强制转换 隐式转换  调用顺序： toPrimitive --> valueOf --> toString
 
-## 实现深浅拷贝
+​	Symbol.toPrimitive 优先级最高，valueOf 偏运算， toString 偏显示
+
+​		https://juejin.cn/post/6873215243804213262
+
+## 实现深浅拷贝 
 
 ​	浅拷贝：对于基本数据类型拷贝的是其值，对于引用数据类型拷贝的是其内存中的地址
 
@@ -147,19 +153,143 @@ function _new(ctor, ...args) {
 
 ## 闭包
 
-​	什么是闭包：可以使用父级的变量，函数里面嵌套函数、 高阶函数
+​	什么是闭包：可以使用父级的变量，函数里面嵌套函数、 高阶函数、可以访问其他函数内部变量的函数
 
-​	闭包的好处：
+​	闭包的好处：可以使用其他函数内部定义的变量
 
 ​	会不会造成内存泄漏：
 
-​	为什么产生闭包：
+​	为什么产生闭包：（当前环境中存在指向父级作用域链的引用）存在作用域链引用，也就是说闭包的本质是对其他函数作用域链的引用
 
-​	闭包的表现形式：
+​	闭包的表现形式：回调函数 内嵌函数   IIFE（立即执行函数==> `(function(){})()`）
 
 ​	宏任务 、 微任务？
 
+​	解决闭包：使用块级作用域 、立即执行函数、借助额外传参
+
+## JSON 方法
+
+​	JSON.parse: 将json字符串转换为对象，可以接受两个参数`JSON.parse(text[,reviver]),reviver返回前对所得到的的对象进行操作， 解析json对象`
+
+​	JSON.stringify: 将js对象或值转换成JSON字符串，可以接受三个参数`JSON.parse(text[,reviver]),reviver返回前对所得到的的对象进行操作， 解析json对象`
+
+​	如果需要实现JSON.stringify 或 JSON.parse，需要考虑值的转换，分为基本数据类型和引用数据类型
+
+​	**JSON.stringify**     输入										输出
+
+​									number    							  'number'
+
+​									string										string
+
+​									boolean									'true' / 'false'
+
+​		基本数据类型  	null										  'null'
+
+​									undefined								'unfefined'
+
+​									symbol									 'undefined'
+
+​									Infinity & NaN							'null'
+
+
+
+​									date										转换成日期格式的字符串（Date.toJSON()）
+
+​									function								undefined
+
+​	引用数据类型 		regexp									'{}'
+
+​									array										string，如果里面存在undefined function symbol转换成null
+
+​																						
+
+​																						如果有toJSON方法就序列化toJSON方法返回值
+
+​								普通对象object							如果存在undefined、function、symbol则全部忽略
+
+​																						所有以symbol为属性键的值全部忽略
+
+## 数组API
+
+​	改变原有数组：尾部添加：push()；尾部删除：pop()；头部删除：shift()；头部添加：unshift()；
+
+​								排序：sort() ； 删除、指定位置新增：splice()；反转：reverse()；
+
+​								ES6： copyWithin() ；fill()
+
+​	不改变原有数组：返回新数组：slice()；返回合并后的新数组：concat()；返回子项：将数组转换成字符串（通过连接符） join();
+
+​								    indexOf(); lastIndexOf()
+
+​									ES6: includes()
+
+​	遍历：					forEach()；reduce()；reduceRight()；map()；过滤返回新数组：filter()；every()；some(); 
+
+​									ES6：查找返回下标：findIndex()； find()；返回迭代器对象：【 enteries(); keys()；values()】
+
+数组的构造器： 
+
+​			字面量: []
+
+​			Array():
+
+​			new Array()：创建数组
+
+​			Array.form()；将类数组转换成数组
+
+​			Array.of()： 创建数组
+
+## 类数组
+
+​	常见的类数组：
+
+​					函数里面的参数对象arguments；
+
+​					用querySelector获得的NodeList
+
+​					用getElementsByTagName/ClassName/Name获得的HTMLCollection
+
+​	什么是类数组：有length属性，且length的最大值不大于2^32
+
+​	怎么让类数组使用数组的方法： 通过Array.form()将类数组转换成数组；改变this指向： Array.prototype.sort.call()
+
+## 数组扁平化
+
+​	怎么实现： 递归； 取代[];
+
+​	实现方法： 递归、reduce、	string + 正则、直接通过toString实现，对于数组来说toString类似于 join(',')
+
+## 数组排序
+
+​	有哪些排序方法：
+
+​		 冒泡排序： n^2，每一轮确定一项的位置
+
+​		选择排序： n*logn，选出无序项里面的最值
+
+​		快速排序:	选取一个参考值，将小于参考值的项放到参考值左边，将大于等于参考值的放到参考值右边，直到有序
+
+​		归并排序：不断将数组折中，直到只有一项再合并排序
+
+​		堆排序：	建树，大根堆、小根堆
+
+​		插入排序：在有序的序列中插入无序的项
+
+​		桶排序：？
+
+​		基数排序：？
+
+​		计数排序：？
+
+​	时间复杂度：
+
+​	空间复杂度：
+
 ## 循环遍历的方法
+
+​	for...of
+
+​	for...in
 
 ## 偏函数和柯里化
 
@@ -167,5 +297,9 @@ function _new(ctor, ...args) {
 
 ​	call实现深拷贝是否可以： 在实现继承的时候，可以通过构造器（借助call）实现继承，可以使父类的引用数据类型不被共享，这是不是也是拷贝的一种类型
 
+## 实现点东西
 
+​	a===1 && a===2 && a==3
+
+​	add(1)(3)(...)
 
