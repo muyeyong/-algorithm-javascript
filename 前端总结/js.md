@@ -285,6 +285,52 @@ function _new(ctor, ...args) {
 
 ​	空间复杂度：
 
+## 异步编程
+
+​	同步编程和异步编程的区别： 异步不阻塞进程，同步阻塞进程
+
+​	异步代码编程方式： 回调函数；Promise；Generator（配个yield使用，返回迭代器）；async/await
+
+​	**Promise**：
+
+​			promise是一个容器保存着未来才会结束的事件
+
+​			**内部状态：**pending 、rejected、 fulfilled
+
+​			**造成回调地狱的原因**：多层嵌套、给个任务存在两个可能性需要单独判断
+
+​			**promise解决回调地狱：**
+
+​								解决多层嵌套：多层嵌套就是层级太多，主要是把它的返回值和之后的逻辑抽离出来，返回值穿透 和 回调函数延迟绑															定，返回值穿透就是将回调函数的结果传递出来，不需要在里面继续写逻辑，如果传递出来的值还是															一个promise就可以继续绑定回调函数，这就是延迟绑定。
+
+​								解决任务的两个可能性：统一捕获错误，reject返回的错误会一直冒泡上传
+
+​			**promise静态方法：**
+
+​								Promise.resolve()：用于将非Promise实例包装成Promise实例返回且状态为fulfilled，如果参数是一个Promise对																	象，就直接返回，如果不是Promise对象就包装成Promise对象返回
+
+```javascript
+Promise.resolve('foo')
+// 等价于
+new Promise(resovle=> resolve('foo'))
+```
+
+​								Promise.reject()：类似于`Promise.reject()`，但返回Promise的状态为reject	
+
+​	    						Promise.all()：接收一组Promise，多个Promise同时操作，当所有Promise成功时按按顺序返回每个Promise的返回															值，一个失败就进入失败处理函数
+
+​								Promise.allSettled()：类似于`Promise.all()`接收一组Promise，但是它不管成功还是失败都会返回每个Promise的状																	  态
+
+​								Promise.any()：接收interable可迭代对象，返回一个Promise对象，一个Promise变成fullfiled，整体Promise为															fulfilled，全部Promise为rejectde，整体Promise为rejected
+
+​								Promise.race()：接收interable可迭代对象，返回一个Promise，哪一个Promise先改变就整体Promise就以先改变的																Promise为主
+
+​			https://cloud.tencent.com/developer/article/1635991
+
+​	**Generator:**  `function*(){}` 就是Generator函数，可以通过 `yield` 或 `return`返回，返回格式均为
+
+​								`{value:xxx, down:false/true}` ,  `yield`可以中断运行，可以通`next()`继续调用，`return`直接终止运行
+
 ## 循环遍历的方法
 
 ​	for...of
