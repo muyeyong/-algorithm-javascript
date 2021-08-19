@@ -1,3 +1,5 @@
+const { reject } = require("lodash");
+
 function test(flag) {
   const p = new Promise((resolve, reject) => {
     if (flag) resolve("success");
@@ -119,7 +121,6 @@ class MyPromise {
   // 添加then方法
   then(onFulfilled, onRejected) {
     const { _value, _status } = this;
-    console.log("then entry");
     // 返回一个新的Promise对象
     return new MyPromise((onFulfilledNext, onRejectedNext) => {
       // 封装一个成功时执行的函数
@@ -471,4 +472,143 @@ console.log(new Promise((re,rg)=>{
     re('success')
 }));
 
+// 2021/08/18
+/*
+ promise存在状态的变化， 
+*/
+const t = new Promise((resolve, reject)=>{
+  resolve(1)
+})
+const t2 = t.then(res=>{
+  console.log('success', res)
+  return 2
+}, err=>{
+  console.log('err', err)
+})
 
+t2.then(res=>{console.log('t2', res)})
+Promise.then()
+Promise.resolve()
+// then的第二个参数 和 catch比较
+  // const p1 = Promise.reject('bug bug bug!!!')
+  const p1 = Promise.resolve('success success success!!!')
+
+  p1.then(res=>{
+    console.log('res', res)
+    throw 'bug bug bug!!'
+  },err=>{
+    console.log('err', err)
+  }).catch(err=>{
+    console.log('catch', err)
+  })
+
+   /* 重新写一个Promise 
+      promise有三个状态: pending fulfilled rejected
+      resolve reject
+      then: 传入两个处理函数 支持链式调用 异常情况处理
+      catch
+   */
+
+const PENDING = 'pending'
+const FULFILLED = 'fulfilled'
+const REJECTED = 'rejected'
+const isFunction = fun => typeof fun === 'function'
+class MyPromise {
+  constructor(handle){
+    this._value = undefined
+    this._status = PENDING
+    this.fulfilledCallBack = []
+    this.rejectedCallback = []
+    try {
+      handle(this._resolve.bind(this), this._reject.bind(this))
+    } catch (error) {
+      this._reject(error)
+    }
+  }
+  _resolve(value){
+    if(this._status !== PENDING) return 
+    let cb
+    const run = function(val){
+      const runFulfilled = function(){
+        while(( cb = this.fulfilledCallBack.shift())){
+          cb(val)
+        }
+      }
+      const runRejected = function(val){
+        while(( cb = this.rejectedCallback.shift())){
+          cb(val)
+        }
+      }
+      if(value instanceof MyPromise) {
+        value._then(function(res){
+          this._status = FULFILLED
+          this._value = res
+          runFulfilled(res)
+        }, function(reason){
+          this._status = REJECTED
+          this._value = reason
+          runRejected(reason)
+        })
+      }else{
+        this._value = value
+        this._status = FULFILLED
+        runFulfilled(value)
+      }
+    }
+    setTimeout(run, 0) // 跟宏任务 微任务有关？
+  }
+  _reject(reason){
+    if(this._status !== PENDING) return
+    this._value = reason
+    this._status = REJECTED
+    let cb
+    while(( cb = this.rejectedCallback.shift())){
+      cb(reason)
+    }
+  
+  }
+  /* 
+    onResolved onRejected 必须是函数，否则忽略
+    如果上一个promise处于pending,则将onResolved onRejected将入回调队列
+    如果是fulfilled rejected需要执行回调，返回一个promise
+    返回新的promise的状态根据上一个的返回值
+   */
+  _then(onResolved, onRejected){
+    return new MyPromise((nextResolved, nextRejected)=>{
+      const {_status, _value } = this
+      onResolved = isFunction(onRejected)? onRejected : function(v){}
+      onRejected = isFunction(onRejected) ? onRejected: function(v){}
+      const handleFulfill = function(){
+         const res =  onResolved(_value)
+         if(res instanceof MyPromise) {
+            res._then(nextResolved, nextRejected)
+         }else{
+            nextResolved(res)
+         }
+      }
+      const handleReject  = function(){
+          const res = onRejected(_value)
+          if(res instanceof MyPromise) {
+            res._then(nextResolved, nextRejected)
+          }else{
+            nextResolved(res)
+          }
+      }
+
+      switch (_status) {
+        case PENDING:
+          this.fulfilledCallBack.push(onResolved)
+          this.rejectedCallback.push(onRejected)
+          break;
+        case FULFILLED:
+          handleFulfill()
+          break;
+        case REJECTED: 
+          handleReject()
+          break;
+      }
+    })
+  }
+}
+
+    

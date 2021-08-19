@@ -331,6 +331,26 @@ new Promise(resovle=> resolve('foo'))
 
 ​								`{value:xxx, down:false/true}` ,  `yield`可以中断运行，可以通`next()`继续调用，`return`直接终止运行
 
+​							实现异步： generator 配合 thunk函数【接受一定的参数，返回定制化的函数】使用
+
+​							自动执行： thunk函数、co函数库
+
+​							generator/promise对比async/await：
+
+​											generator函数的执行必须依赖迭代器，async自带迭代器，自动执行
+
+​											如果需要generator自执行，yield后面只能是thunk函数 或 promise函数，await后面没有限制
+
+​											`async/await` 比 `* yield`语义更好
+
+## Promise 实现
+
+​	不是很清楚成功or失败回调函数的作用，.then传入的值应该跟上一个then传入的处理函数传出的值相关
+
+​		p.then().then().then()		
+
+​	执行resolve不应该把值给返回出去吗？
+
 ## 循环遍历的方法
 
 ​	for...of
@@ -348,4 +368,15 @@ new Promise(resovle=> resolve('foo'))
 ​	a===1 && a===2 && a==3
 
 ​	add(1)(3)(...)
+
+```javascript
+for(var i=0;i<5;i++){
+
+	setTimeout(()=>{},100)
+
+}
+// 这个问题是不是可以通过generator解决
+```
+
+
 
