@@ -351,6 +351,20 @@ new Promise(resovle=> resolve('foo'))
 
 ​	执行resolve不应该把值给返回出去吗？
 
+​	在实现的过程中，使用`this`遇到改变指向的问题，如果使用function要提前保存`this`
+
+![](https://i.loli.net/2021/08/19/sAzc3Ye2kRFamPr.png)
+
+总结：resolve：使用
+
+​			reject：
+
+​			then：实际上实现了两个功能：回调完当前所有`resolve reject`的回调函数 以及 执行下一个 `promise`的`resolve`
+
+​		大量使用闭包
+
+
+
 ## 循环遍历的方法
 
 ​	for...of
