@@ -4,20 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MVVM实现-Vue</title>
+    
+</head>
+<body>
+    <div id="app">
+        <h1>我的名字是：{{person.name}}
+            <p>{{person.sex}}</p>
+        </h1>
+        <h1>我的年龄是：{{person.age}}</h1>
+        <p>{{person.sex}}</p>
+    </div>
     <script src="./mvvm.js"></script>
     <script>
         let mvvm = new Mvvm({
+            el:'#app',
             data: {
-                a: {
-                    b:1
+                person: {
+                    name:'马大哈',
+                    age: 18,
+                    sex:'男'
                 },
-                c:3
             }
         })
-        console.log('mvvm',mvvm)
     </script>
-</head>
-<body>
-    
 </body>
 </html>
