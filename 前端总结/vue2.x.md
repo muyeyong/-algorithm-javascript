@@ -46,3 +46,19 @@ MVVM：
 ​	beforeDestroy
 
 ​	destroy
+
+## nextTick
+
+​	浏览器多进程，CPU进程跟web密切相关，CPU进程包含多个线程
+
+​	数据改变后，页面可能没有刷新
+
+​     MutationObserver接口提供了监视对DOM树所做更改的能力
+
+​	页面渲染： 宏任务 > 渲染 > 宏任务 > 渲染
+
+​	task执行优先级：
+
+​		Promise -> MutationObserver -> setImmediate -> setTimeout
+
+​	宏任务执行后，dom就已经更新？只是还没有渲染， 微任务就可以拿到dom
