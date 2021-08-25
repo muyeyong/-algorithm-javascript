@@ -1,3 +1,11 @@
+## Vue三要素
+
+响应式：双向数据绑定
+
+模板引擎：怎么解析模板
+
+渲染：将监听到的数据和解析后的html进行渲染
+
 ## MVC , MVP 和 MVVM
 
 ​	MVC：
@@ -62,3 +70,25 @@ MVVM：
 ​		Promise -> MutationObserver -> setImmediate -> setTimeout
 
 ​	宏任务执行后，dom就已经更新？只是还没有渲染， 微任务就可以拿到dom
+
+## 使用Object.defineProperty进行数据劫持
+
+​	缺点： 不能对数组进行监听；代理的是对象的属性，如果是复杂的对象需要一层层的遍历，如果使用Proxy代理的是整个对象
+
+## 组件通信
+
+​	父子通信： 使用 `props` 和 `$emit`；`$children` 和 `$parent`
+
+​	非父子通信：`provide` 和 `inject（不是响应式的除非你主动声明响应式）`；`ref`和`refs`； `eventBus`；`vuex`；`本地化存储：localStore...`；`$attrs` 和 `$listeners`
+
+​	兄弟组件通信：抽象出父组件；
+
+​	父孙组件通信：一直向下传递`prop`
+
+## Virtual DOM
+
+​	虚拟dom也是一个javascript对象，对真实的dom做的映射
+
+diff：
+
+​	dom更新通过对新旧虚拟节点的比较实现的，新的虚拟节点有的，但是旧的虚拟节点没有的，就需要添加，反之就需要删除，两者共同的元素就需要进行位置比较。头头比较、尾尾比较、新头旧尾比较、旧尾新头比较。

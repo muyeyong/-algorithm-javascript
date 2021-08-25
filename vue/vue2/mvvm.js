@@ -119,5 +119,12 @@ Dep.prototype.notify = function(){
 */
 
 
+/* 
+ 发布者
+ 消息中心
+ 订阅者
+ 将消息中心传递到订阅者中去
+ */
+
 
 
