@@ -21,6 +21,21 @@
     return i === numbers.length ? numbers[0] : Math.min(numbers[0], numbers[i])
 };
 
-console.log(minArray([1,3,5]))
+// console.log(minArray([1,3,5]))
 
 // TODO 用二分实现
+var minArrayV2 = function(numbers) {
+  let left = 0; let right = numbers.length - 1
+  while (left < right) {
+    const mid = ((right - left) >> 1) + left
+    if (numbers[right] > numbers[mid]) {
+      right = mid
+    } else if (numbers[right] < numbers[mid]) {
+      left = mid + 1
+    } else right--
+  }
+  return numbers[right]
+}
+
+console.log(minArrayV2([4,5,6,7,0,1,2]))
+
