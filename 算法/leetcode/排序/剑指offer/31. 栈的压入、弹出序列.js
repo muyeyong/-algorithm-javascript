@@ -24,8 +24,26 @@
  * @param {number[]} popped
  * @return {boolean}
  */
+/* 
+  用一个新的数组将pushed依次入栈，同时popped第一个元素存在新数组中，将新数组中的这个元素是不是在栈尾
+ */
  var validateStackSequences = function(pushed, popped) {
   if (pushed.length !== popped.length) return false
-  let i = 0; let j= 0
-  
+  let i = 0; let j = 0 
+  const stack = []
+  while( i < pushed.length && j < popped.length) {
+    if ( pushed[i] !== popped[j] ) {
+      stack.push(pushed[i])
+    } else {
+      j++
+      while (stack.length > 0 && stack[stack.length - 1] == popped[j] && j < popped.length  ) {
+        stack.pop()
+        j++
+      }
+    }
+    i++
+  }
+  return stack.length === 0
 };
+
+console.log(validateStackSequences([1,0], [0,1]))
