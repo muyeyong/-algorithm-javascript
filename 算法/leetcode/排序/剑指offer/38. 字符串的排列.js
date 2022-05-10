@@ -29,7 +29,11 @@ const traverse = (s, visited, s1, list) => {
   for (let i = 0; i < s.length; i += 1) {
     if (visited[i] === false) {
       visited[i] = true
-      traverse(s, visited, s1 + s.charAt(i), list)
+      let deepSearch = true
+      for(let j = 0; j < i ; j += 1) {
+        if (s.charAt(i) === s.charAt(j) && visited[j]) deepSearch = false
+      }
+      deepSearch && traverse(s, visited, s1 + s.charAt(i), list)
       visited[i] = false
     }
   }
@@ -37,7 +41,7 @@ const traverse = (s, visited, s1, list) => {
  var permutation = function(s) {
    const list = []
   traverse(s, Array.from({ length: s.length }, () => false ), '', list)
-  return Array.from(new Set(list))
+  return list
 };
 
 permutation('abc')
