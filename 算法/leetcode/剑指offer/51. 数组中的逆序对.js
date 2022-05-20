@@ -1,6 +1,5 @@
 // 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
 
-const { sortedIndex } = require("lodash");
 
 //  
 
@@ -61,45 +60,49 @@ const { sortedIndex } = require("lodash");
  20220519，要用归并排序
  */
 
- let count = 0
+ /* 
+ TODO 20220520，尝试树状数组解决
+ ~~ 这个有什么用
+  */
 
- const merge = (left, right) => {
-  let result = []
-  let i =0; let j= 0
-  while(i<left.length && j < right.length) {
-    if (left[i] >= right[j]) {
-      result.push(right[j])
-      j++
-    } else if (left[i] < right[j]) {
-      result.push(left[i])
-      count += (j + 1)
-      i++
-    }
-  }
-  while( i < left.length) {
-    result.push(left[i])
-    count += (right.length)
-    i++
-  }
-  while( j < right.length) {
-    result.push(right[j])
-    j++
-  }
-  return result
- }
-
- const sort = (nums) => {
-  if (nums.length <= 1) return nums
-  const mid = Math.floor(nums.length / 2)
-  const left = nums.slice(0, mid)
-  const right = nums.slice(mid)
-  return  merge(sort(left), sort(right))
- }
-
-
+ 
  var reversePairsV1 = function(nums) {
-  return sort(nums)
+  let count = 0
+  const merge = (left, right) => {
+   let result = []
+   let i =0; let j= 0
+   while(i<left.length && j < right.length) {
+     if (left[i] <= right[j]) {
+       result.push(right[j])
+       j++
+     } else if (left[i] > right[j]) {
+       result.push(left[i])
+       count += (right.length - j)
+       i++
+     }
+   }
+   while( i < left.length) {
+     result.push(left[i])
+     i++
+   }
+   while( j < right.length) {
+     result.push(right[j])
+     j++
+   }
+   return result
+  }
+ 
+  const sort = (nums) => {
+   if (nums.length <= 1) return nums
+   const mid = Number.parseInt(nums.length / 2)
+   const left = nums.slice(0, mid)
+   const right = nums.slice(mid)
+   return  merge(sort(left), sort(right))
+  }
+  sort(nums)
+  return count
  }
- reversePairsV1([7,5,6,4])
 
- console.log(count)
+ // [1,3,2,3,1] ==> 4
+
+ console.log(reversePairsV1([1,3,2,3,1]))
