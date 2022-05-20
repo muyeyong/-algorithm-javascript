@@ -1,5 +1,7 @@
 // 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
 
+const { sortedIndex } = require("lodash");
+
 //  
 
 // 示例 1:
@@ -47,10 +49,57 @@
   return ans.reduce((a, b) => a+b)
 };
 
-console.log(reversePairs([233,2000000001,234,2000000006,235,2000000003,236,2000000007,237,2000000002,2000000005,233,233,233,233,233,2000000004]))
+// console.log(reversePairs([233,2000000001,234,2000000006,235,2000000003,236,2000000007,237,2000000002,2000000005,233,233,233,233,233,2000000004]))
 
 /*  [
     233,2000000001,234,2000000006,235,2000000003,
     236,2000000007,237,2000000002,2000000005,233,233,233,
-    233,233,2000000004
+    233,233,2000000004  
   ] */
+
+/* 
+ 20220519，要用归并排序
+ */
+
+ let count = 0
+
+ const merge = (left, right) => {
+  let result = []
+  let i =0; let j= 0
+  while(i<left.length && j < right.length) {
+    if (left[i] >= right[j]) {
+      result.push(right[j])
+      j++
+    } else if (left[i] < right[j]) {
+      result.push(left[i])
+      count += (j + 1)
+      i++
+    }
+  }
+  while( i < left.length) {
+    result.push(left[i])
+    count += (right.length)
+    i++
+  }
+  while( j < right.length) {
+    result.push(right[j])
+    j++
+  }
+  return result
+ }
+
+ const sort = (nums) => {
+  if (nums.length <= 1) return nums
+  const mid = Math.floor(nums.length / 2)
+  const left = nums.slice(0, mid)
+  const right = nums.slice(mid)
+  return  merge(sort(left), sort(right))
+ }
+
+
+ var reversePairsV1 = function(nums) {
+  return sort(nums)
+ }
+ reversePairsV1([7,5,6,4])
+
+ console.log(count)
