@@ -67,3 +67,6 @@ console.log(nthUglyNumber(1690))
   }
 
   console.log(nthUglyNumberV2(10))
+
+
+  // 测试
