@@ -36,6 +36,8 @@ class MyPromise {
   };
   _then = function (onFulfilled, onRejected) {
       const {_status,_value} = this
+      onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : val => val
+      onRejected = typeof onRejected === 'function' ? onRejected : val => val
       return new MyPromise((onFulfilledNext,onRejectedNext)=>{
           const fulfilled = function(val){
               try {
@@ -45,12 +47,12 @@ class MyPromise {
                     let res = onFulfilled(val)
                     if(res instanceof MyPromise)
                         res._then(onFulfilledNext,onRejectedNext)
-                    else onFulfilledNext(res)
+                    else 
+                        onFulfilledNext(res)
                 }
               } catch (error) {
                   onRejected(error)
               }
-           
           }
           const rejected = function(err){
                 try {
@@ -89,9 +91,14 @@ let p1 = new MyPromise((re,rj)=>{
         re('P1')
     },2000)
 })
-p1._then(res=>{
-    console.log(res)
+p1._then(res =>{
+    // console.log(res)
+    console.log('then1', res)
+    return 1
+})._then(res => {
+    console.log('then2', res)
+    return 2
+})._then((res) => {
+    console.log('then3', res)
 })
-
-
 
