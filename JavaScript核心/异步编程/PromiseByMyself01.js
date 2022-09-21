@@ -101,3 +101,6 @@ p1.then((res) => {
  怎么去等待，然后还需要保持执行的顺序
  promise.then 可以获取promise的结果，保持执行顺序的话就将resolve reject传入
  */
+
+
+ 
