@@ -127,7 +127,7 @@ diff算法是基于fiber树实现的，在决定是否需要复用dom时使用�
 
 实现：
 
-​	监听原生事件：对其dom元素和fiber元素
+​	监听原生事件：对齐dom元素和fiber元素
 
 ​	搜集listeners：遍历fiber树，收集所有监听本事件的listener函数
 
@@ -244,6 +244,17 @@ hook怎样实现数据持久化? 有没有自定义实现hook？
 
 ***
 
+受控组件： 组件的值和值的改变都可以被控制
+
+非受控组件： 组件自己维护了值设置和改变的流程
+
+可以使用input举例：
+
+```js
+<input value={} onChange={}/> //受控组件，控制了input的值和其改变
+<input /> //非受控组件，浏览器自定义了值和其改变
+```
+
 
 
 ## 如何避免ajax数据请求重新获取
@@ -318,3 +329,10 @@ lane模型的引入，之前使用的是expirationTime来描述任务优先级
 
 ## react18带来了那些改变
 
+
+
+## 怎么判断一个组件是function component 还是 class component
+
+React 会顺着原型链检查`isReactComponent`这个属性
+
+https://luckyoneday.github.io/post/1-translate-tell-class-from-function/

@@ -14,11 +14,11 @@ CommonJs:
 
 区别：
 
-​	esmodule 输出的是值的应用，emodule不能直接修改引用值；commonjs输出的是值的拷贝
+​	esmodule 输出的是值的引用，esmodule不能直接修改引用值；commonjs输出的是值的拷贝
 
 ​	commonjs同步加载，esmodule异步加载，可能涉及同步请求
 
-​	cjs运行是加载，esm编译时加载，esm是静态的
+​	cjs运行时加载，esm编译时加载，esm是静态的
 
 ## exports 和 module.exports 区别
 
@@ -39,7 +39,7 @@ fs.readFileSync('1.txt', () => {
 }) 阻塞io
 ```
 
-非阻塞io是立即完成的，同时发射这个事件并写好这个事件的处理函数，底层io处理完之后并执行这个事件
+非阻塞io是立即完成的，同时发射这个事件并写好这个事件的处理函数，底层io处理完之后并执行这个事件的处理函数
 
 libuv是由线程池和事件循环组成的，负责所有io任务的分发和执行，处理非阻塞io会由一个线程处理，处理完之后放入事件循环等待被执行
 
@@ -133,6 +133,81 @@ app.use(async(ctx, next) => {
 }) // 使用新的中间件都需要使用use
 app.listen(3000)
 ```
+
+### buffer
+
+```js
+// 使用buffer进行二进制存储
+// 创建buffer
+Buffer.from([]) // 指定创建buffer的内容
+Buffer.alloc(len) // 创建指定长度的buffer
+Buffer.allocUnsafe(len) // 可能包含旧数据
+
+// buffer读写
+buffer.write(string[, offset[, length]][, encoding])
+buffer.toString([encoding[, start[, end]]])
+
+// 对于buffer的读写还是不方便，引入protocol-buffers，可以规定数据类型、初始值
+// produce.proto
+message Product {
+  requires float price = 18
+}
+// index.js
+const schemas = protocol(fs.readFileSync('./product.proto')) // 读取配置文件
+const buffProduct = schemas.Product.encode({ price: 90 }) // 编码
+schemas.Product.decode(buffProduct) // 解码
+
+```
+
+### 全双工 半双工 单工
+
+```js
+/* net 创建tcp连接 
+	客服端： const socket = new net.Socket({})  通过scoket套接字进行连接 --> socket.connect({}) 通信 --> socket.write()
+	客户端： const server = net.createServer((socket) => {
+		socket.on('data', buffer => {
+			//通信
+		})
+	})  
+	server.listen(3000)
+**/
+// 单工-- 数据只支持在一个方向上传输 （客户端 到 服务端 ）or （服务端 到 客户端）
+ 
+// 半双工 -- 同一时间内只能单向传输数据
+
+// 全双工 -- 可以同时进行双向数据传输
+	时序问题：发送与返回不一定对得上
+  包不完整：粘包
+  解决办法： 设置seq包的唯一标志， 发送前写入body的长度，放置读取body不对
+```
+
+## 模板引擎
+
+```js
+const vm = require('vm')
+const context = vm.createContect({}) // 上下文
+vm.runInContect('function(){}', context) // 在指定上下文中执行
+```
+
+## Graphql
+
+```
+api数据查询
+```
+
+## react前后端同构
+
+```js
+// 需要使用babel 转义react
+/* 将React代码转换成字符串, 通过ReactDom.renderToString(<A />)
+怎么将function 组件转换成 string，上面那个方法只能转换class组件
+  如果要将function 组件使用 renderToString可以这样写 ===> renderToString(React.creteElement(App)) */
+
+```
+
+
+
+
 
 
 
