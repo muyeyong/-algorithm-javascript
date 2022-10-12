@@ -36,7 +36,7 @@ fs.readFile('1.txt', () => {
 }) 非阻塞io
 fs.readFileSync('1.txt', () => {
   
-}) 阻塞io
+}) 阻塞io 
 ```
 
 非阻塞io是立即完成的，同时发射这个事件并写好这个事件的处理函数，底层io处理完之后并执行这个事件的处理函数
@@ -61,7 +61,7 @@ node事件循环分为六个阶段
 
 node每个阶段都存在各自的任务队列，包含宏任务和微任务，在node11版本执行完一个宏任务就立刻执行所有微任务，node10及以下版本执行完所有宏任务才会执行微任务。
 
-process.nextTick可以类比setAnimationFram，会在下一次循环之前执行
+process.nextTick可以类比setAnimationFrom，会在下一次循环之前执行
 
 ## node的多进程架构
 
