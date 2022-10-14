@@ -17,3 +17,10 @@ console.log(child)
 console.log(parent)
 
 
+/* 
+    原型链继承
+    构造函数继承
+    组合继承
+    寄生式继承
+    es6 extends
+ */

@@ -45,7 +45,7 @@ MVVM：
 
 ​	beforeMount
 
-​	mountd
+​	mounted
 
 ​	beforeUpdate
 
