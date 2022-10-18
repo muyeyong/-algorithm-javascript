@@ -10,3 +10,5 @@
 ## single-spa
     qiankun是基于single-spa实现
     主应用需要注册子应用，子应用要导出三个方法，bootstrap、mount和unmount
+## 应用间通信
+    action通信

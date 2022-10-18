@@ -37,7 +37,7 @@ class MyPromise {
     if (x instanceof MyPromise) {
       if (x.status === PENDING) {
         x.then(y => this.resolvePromise(promise2, y, resolve, reject), reject)
-      } else {
+      } else { 
         x.then(resolve, reject)
       }
     } else {
