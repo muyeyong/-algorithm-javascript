@@ -1,7 +1,7 @@
 // Promise内部的状态： pending、resolve(fulfilled)、reject(rejected)
 // Promise怎么解决回调地狱：.then()
     // 回调地狱的问：多层嵌套、处理返回成功or失败的两种情况
-    // Promise解决：回调函数延迟绑定、返回值穿透、错误向下传递
+    // Promise解决：回调函数延迟绑定、返回值穿透 ：解决多层嵌套、错误向下传递：解决两种状态
 
 //1.获取轮播数据列表
 

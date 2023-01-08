@@ -1,6 +1,6 @@
 // new 原理介绍
     //  创建一个空对象
-    //  改变this的指向
+    //  将新的对象的__proto__指向构造函数
     //  执行构造函数的代码
     //  返回新对象
 
@@ -8,6 +8,12 @@
 // const _new = function(ctor, ...args){
 //     if(ctor )
 // }
+
+/* 
+ 2023-01-08
+ bind call apply的原理：
+    将调用者保存到新的上下文中，成为新的上下文中的一个属性，然后执行新的上下文中的这个属性，this自然会指向新的上下文
+ */
 
 Function.prototype.myBind = function(context, ...args){
     if(!context) context = window
