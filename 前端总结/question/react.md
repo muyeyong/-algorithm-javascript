@@ -310,8 +310,8 @@ A组件需要B组件的某个功能：
 ****
 
 hash模式是通过监听hash值的变化做出对应的渲染
-
-history模式依赖html5 History API，主要依赖pushState 和 replaceState，两个都会更新url，但不会刷新页面，刷新页面的时候，会出现404的原因是，浏览器会把整个url当做一个静态资源区访问，这里就需要后台配置，当资源不存在需要重定向
+存在需要重定向
+history模式依赖html5 History API，主要依赖pushState 和 replaceState，两个都会更新url，但不会刷新页面，刷新页面的时候，会出现404的原因是，浏览器会把整个url当做一个静态资源区访问，这里就需要后台配置，当资源不
 
 ## react17带来了那些改变
 
