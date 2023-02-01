@@ -36,6 +36,31 @@ v-if 比 v-for的优先级高
 ```
 
 ## 组件通信
+Vue3通信方式：
+
+props
+$emit
+expose / ref
+$attrs
+v-model
+provide / inject（原理：原型链）
+Vuex/pinia
+mitt
+
+Vue2.x 组件通信共有12种
+
+props
+$emit / v-on
+.sync
+v-model
+ref
+children/children / children/parent
+attrs/attrs / attrs/listeners
+provide / inject
+EventBus
+Vuex
+$root
+slot
 
 ### provide 和 inject的原理是什么
 

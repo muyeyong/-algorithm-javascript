@@ -1,7 +1,7 @@
 // Promise内部的状态： pending、resolve(fulfilled)、reject(rejected)
 // Promise怎么解决回调地狱：.then()
     // 回调地狱的问：多层嵌套、处理返回成功or失败的两种情况
-    // Promise解决：回调函数延迟绑定、返回值穿透 ：解决多层嵌套、错误向下传递：解决两种状态
+    // Promise解决：回调函数延迟绑定、返回值穿透 ：解决多层嵌套 ; 错误向下传递：解决两种状态
 
 //1.获取轮播数据列表
 
@@ -70,7 +70,7 @@ function getBannerList(){
   initLoad()
   // Promise的静态方法
     // all(iterable): 成功：按顺返回所有Promise的结果 ；失败：进入失败处理函数
-    // alSettled(iterable): 可以拿到每一个Promise的结果
+    // allSettled(iterable): 可以拿到每一个Promise的结果
     // any(iterable): 实验中的特性，只要有一个Promise实例变成了fulfilled，最后any返回的实例就是fulfilled，如果全部实例返回rejected，any返回的实例就是rejected
     const resolved = Promise.resolve(2);
     const resolved1 = Promise.resolve(3);
