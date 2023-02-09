@@ -83,3 +83,9 @@
 + 圣杯布局：margin 负值的应用，可以使用flex代替
 
 + 双飞翼布局： margin 负值的应用，可以使用flex代替
+
+## 元素
+
+行内块元素: span i 
+
+块级元素： div  section  main  ul  li  p  h1-h6
