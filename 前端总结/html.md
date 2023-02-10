@@ -86,6 +86,6 @@
 
 ## 元素
 
-行内块元素: span i 
+行内块元素: span i  img input button textarea label
 
-块级元素： div  section  main  ul  li  p  h1-h6
+块级元素： div  section  main  ul  li  p  h1-h6 article aside
