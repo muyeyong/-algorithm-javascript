@@ -28,6 +28,8 @@ MVVM：
 
 ​	将 Presenter 改名为 ViewModel，基本上与 MVP 模式完全一致。唯一的区别是，它采用双向绑定（data-binding）：View的变动，自	动反映在 ViewModel，反之亦然。
 
+[参考MVVM、MVC与MVP](https://juejin.cn/post/6844903480126078989)
+
 ### vue2.x实现双向数据绑定
 
 ​	通过数据劫持（Object.defineProperty） + 发布订阅模式实现

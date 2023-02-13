@@ -2,7 +2,7 @@
 
 ## 原型链及其方法
 
-`_prop_ 属性`
+`__prop__ 属性`
 
 `prototype 属性`
 
@@ -16,6 +16,14 @@
 
 `isPrototypeOf 方法`
 
+**补充：**
+
+​	实例对象的`__prop__`指向原型对象
+
+​	构造函数的`prototype`指向原型对象
+
+​	原型对象的`constructor`指向构造函数， `__proto__`指向父级原型对象
+
 ##  JS数据类型
 
 ​	基本数据类型：number sting null undefined boolean symbol  bigInt
@@ -24,7 +32,7 @@
 
 ​	数据类型的判断：
 
-​		typeof: 可以判断基本数据类型 和 引用数据类型，但 typeof null === 'object'，判断引用数据类型结果全部为 ’object'，除function外
+​		typeof: 可以判断基本数据类型 和 引用数据类型，但 typeof null === 'object'，判断引用数据类型结果全部为 ’object'，除function（判断成'function'）外
 
 ​		instanceof: 判断该对象是否由该构造函数生产，不能判断基础类型
 
@@ -60,7 +68,7 @@
 
 ​	原型链继承（基于构造函数）： 
 
-​			构造函数：new Fun， 指的就是这个 Fun
+​			构造函数：new Fun，构造函数就是这个 Fun
 
 ​			原型对象：构造函数的空对象，可以通过它给构造函数添加属性和方法
 
@@ -70,7 +78,7 @@
 
 ​					1、创建一个新的对象
 
-​					2、 将对象的 `_proto_`设置成构造函数的`prototype`
+​					2、 将对象的 `__proto__`设置成构造函数的`prototype`
 
 ​					3、执行构造函数的代码
 
@@ -117,7 +125,7 @@
 
 ​	1、创建一个新的对象
 
-​	2、 将对象的 `_proto_`设置成构造函数的`prototype`
+​	2、 将对象的 `__proto__`设置成构造函数的`prototype`
 
 ​	3、执行构造函数的代码
 
@@ -165,6 +173,31 @@ function _new(ctor, ...args) {
 ​	宏任务 、 微任务？
 
 ​	解决闭包：使用块级作用域 、立即执行函数、借助额外传参
+
+​	**补充：**
+
+​		常见造成**内存泄漏**：
+
+​			全局变量： window.xxx，
+
+​			 定时器：使用完没有被清除
+
+​			dom： dom属性	 dom元素   事件监听: 使用完没有取消监听
+
+```javascript
+var a = {}
+document.getElementById('id').diyProp = a
+
+var a = document.getElementById('id');
+document.body.removeChild(a);
+// 不能回收，因为存在变量a对它的引用。虽然我们用removeChild移除了但是还在对象里保存着#的引用，即DOM元素还在内存里面。
+```
+
+​				闭包：大量使用闭包可能会造成内存泄漏
+
+​				console：输出会保持引用
+
+​				
 
 ## JSON 方法
 
@@ -237,6 +270,16 @@ function _new(ctor, ...args) {
 ​			Array.form()；将类数组转换成数组
 
 ​			Array.of()： 创建数组
+
+​	Array() 和 Array.of()区别：
+
+```js
+Array(8) ==> [empty * 8]
+Array(8, 1) ==> [8, 1]
+//Array参数不同存在歧义
+Array.of(8) => [9]
+Array.of(8, 1) => [8 ,1]
+```
 
 ## 类数组
 
