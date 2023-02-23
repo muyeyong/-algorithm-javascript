@@ -336,3 +336,46 @@ lane模型的引入，之前使用的是expirationTime来描述任务优先级
 React 会顺着原型链检查`isReactComponent`这个属性
 
 https://luckyoneday.github.io/post/1-translate-tell-class-from-function/
+
+# 2023-02-23
+## 我们写的事件是绑定在dom上么，如果不是绑定在哪里？
+react的合成事件， react16事件全部绑定在document上，react17事件绑定在rootNode上
+合成事件是为了抹除浏览器的差异
+## 为什么我们的事件不能绑定给组件？
+组件并不是一个是个真实的dom，所有的点击事件必须绑定到真实的dom上，绑定到组件上只会认为是一个props
+## 为什么我们的事件手动绑定this(不是箭头函数的情况)
+首先this的指向是谁调用就指向谁，在react的中处理函数并不是组件的实例去调用，
+将jsx转换成React.createElement('div', { onClick: this.click }, 'xxx'), 非严格模式下，this会默认绑定到window上，严格模式下this就是undefine，需要手动绑定
+
+##  为什么不能用 return false 来阻止事件的默认行为？
+
+## react怎么通过dom元素，找到与之对应的 fiber对象的？
+fiber节点的stateNode指向真实的dom，dom有一个随机产生key的指针指向fiber节点
+## onClick是在冒泡阶段绑定的？ 那么onClickCapture就是在事件捕获阶段绑定的吗？
+
+## 对函数式（声明式）编程的理解
+    关注函数而不是关注过程，强调怎样通过函数组合去实现，而不是通过语句去实现
+    核心观点：
+        数据不可变（无副作用）：不改变外界的值
+        无状态：相同的输入，对于唯一的输出
+    好处：
+        便于测试和优化
+        一目了然
+        可缓存
+## 为什么不能在条件语句中写 hook
+    react的hook是通过链表进行存储的（有序列表），如果发生错位了就不能去到正确的值
+    hook 在每次渲染时的查找是根据一个“全局”的下标对链表进行查找的，如果放在条件语句中使用，有一定几率会造成拿到的状态出现错乱
+## react的生命周期
+        渲染(mount)                  更新(update)                            卸载(unmount)        错误(error)
+render  constructor                  componentWillReceiveProps(react17废弃)                      getDerivedStateFromError
+        conponentWillMount(react17废弃)
+                ---getDerivedStateFromProps---
+                                     shouldComponentUpdate    
+                ------------render------------
+
+                                    getSnapshotBeforeUpdate
+commit componentDidMount            componentDidUpdate                      componentWillUnmount  componentDidCatch
+## diff算法
+
+## 函数式组件和类组件
+函数式组件捕获了渲染的值，类组件由于this的缘故渲染的值会变动（可以通过闭包解决）
